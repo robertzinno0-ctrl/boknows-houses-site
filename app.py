@@ -101,6 +101,19 @@ def submit():
     }
     save_lead(lead)
     push_to_ghl(lead)
+    try:
+        import sys
+        sys.path.insert(0, '/Users/robertzinno/.openclaw/workspace/boknowshouses-leads')
+        from twilio_sms import send_sms
+        msg = (f"🏠 NEW SELLER LEAD — Bo Knows Houses\n"
+               f"Name: {lead.get('name','')}\n"
+               f"Phone: {lead.get('phone','')}\n"
+               f"Property: {lead.get('address','')}, {lead.get('city','')}\n"
+               f"Condition: {lead.get('condition','')}\n"
+               f"Situation: {lead.get('situation','')}")
+        send_sms(msg)
+    except Exception as e:
+        logger.error('SMS error: %s', str(e))
     return redirect(url_for('thank_you'))
 
 
