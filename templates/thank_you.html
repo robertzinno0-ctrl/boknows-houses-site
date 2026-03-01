@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Thank You — Bo Knows Houses | We'll Call You Within 24 Hours{% endblock %}
+
+{% block head %}
+<style>
+  .ty-hero {
+    background: linear-gradient(135deg, #0f1e30 0%, #1a2e4a 100%);
+    min-height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  .ty-card {
+    max-width: 640px;
+    width: 100%;
+  }
+  .ty-check {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--blue-dark);
+    font-size: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 4px 24px rgba(243,156,18,0.4);
+  }
+  .ty-card h1 {
+    color: #fff;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 900;
+    margin-bottom: 0.75rem;
+    line-height: 1.15;
+  }
+  .ty-card h1 span { color: var(--gold); }
+  .ty-card .ty-sub {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+  .ty-phone-box {
+    background: var(--gold);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .ty-phone-box p {
+    color: var(--blue-dark);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .ty-phone-box a {
+    display: block;
+    color: var(--blue-dark);
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+  }
+  .ty-phone-box a:hover { text-decoration: underline; }
+  .ty-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .ty-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    text-align: left;
+  }
+  .ty-step-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .ty-step-text h4 { color: #fff; font-weight: 700; margin-bottom: 0.2rem; font-size: 0.95rem; }
+  .ty-step-text p { color: rgba(255,255,255,0.65); font-size: 0.875rem; line-height: 1.5; }
+  .ty-social {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+  }
+  .ty-social a { color: var(--gold); text-decoration: underline; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ty-hero">
+  <div class="ty-card">
+    <div class="ty-check">✓</div>
+    <h1>You're <span>All Set!</span></h1>
+    <p class="ty-sub">We received your property info and we're on it.<br><strong style="color:#fff;">We'll call you within 24 hours</strong> with your cash offer.</p>
+
+    <div class="ty-phone-box">
+      <p>Can't wait? Call us right now:</p>
+      <a href="tel:19412717856">1-941-271-7856</a>
+    </div>
+
+    <div class="ty-steps">
+      <div class="ty-step">
+        <div class="ty-step-icon">📋</div>
+        <div class="ty-step-text">
+          <h4>What happens next</h4>
+          <p>Our team is reviewing your property details right now. We'll research your area and put together a fair cash offer.</p>
+        </div>
+      </div>
+      <div class="ty-step">
+        <div class="ty-step-icon">📞</div>
+        <div class="ty-step-text">
+          <h4>We'll call you within 24 hours</h4>
+          <p>Expect a call from a local Florida number. We'll walk you through the offer, answer all your questions, and there's zero pressure.</p>
+        </div>
+      </div>
+      <div class="ty-step">
+        <div class="ty-step-icon">💰</div>
+        <div class="ty-step-text">
+          <h4>You decide — no obligation</h4>
+          <p>You're 100% in control. Accept, decline, or think it over. We're here to help, not pressure you into anything.</p>
+        </div>
+      </div>
+    </div>
+
+    <a href="/" class="btn btn-gold" style="font-size:1rem;">← Back to Homepage</a>
+
+    <p class="ty-social">
+      Follow us on Instagram:
+      <a href="https://instagram.com/boknowshousesus" target="_blank" rel="noopener">@boknowshousesus</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

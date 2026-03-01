@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0f1e30 0%, #1a2e4a 60%, #1f3a5c 100%);
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(243,156,18,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    color: #fff;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    max-width: 800px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    color: rgba(255,255,255,0.85);
+    font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+    max-width: 600px;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  .hero-cta {
+    font-size: 1.2rem;
+    padding: 1.1rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(243,156,18,0.4);
+    animation: pulse-gold 2.5s infinite;
+  }
+  @keyframes pulse-gold {
+    0%, 100% { box-shadow: 0 4px 20px rgba(243,156,18,0.4); }
+    50% { box-shadow: 0 4px 32px rgba(243,156,18,0.7); }
+  }
+  .hero-badges {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-badge {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .hero-badge .check { color: var(--gold); font-size: 1rem; }
+
+  /* ── Trust Bar ── */
+  .trust-bar-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 2rem;
+    font-size: 1rem;
+  }
+  .trust-item { white-space: nowrap; }
+
+  /* ── How It Works ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .step-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    border-top: 4px solid var(--gold);
+  }
+  .step-number {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+  .step-card h3 { font-size: 1.2rem; color: var(--blue); margin-bottom: 0.5rem; }
+  .step-card p { color: var(--gray); font-size: 0.95rem; }
+
+  /* ── Situations ── */
+  .situations-section { background: var(--gray-light); }
+  .situations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  @media(min-width:640px) {
+    .situations-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media(min-width:900px) {
+    .situations-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .situation-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .situation-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .situation-icon { font-size: 2.2rem; margin-bottom: 0.6rem; }
+  .situation-card h3 { font-size: 0.95rem; font-weight: 800; color: var(--blue); margin-bottom: 0.3rem; }
+  .situation-card p { font-size: 0.8rem; color: var(--gray); line-height: 1.4; }
+
+  /* ── Offer Form Section ── */
+  .form-section { background: var(--blue); }
+  .form-section .section-title { color: #fff; }
+  .form-section .section-sub { color: rgba(255,255,255,0.75); }
+
+  /* ── Why Us ── */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .why-item {
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+  .why-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .why-item h3 { font-size: 1rem; font-weight: 800; color: var(--blue); margin-bottom: 0.3rem; }
+  .why-item p { font-size: 0.875rem; color: var(--gray); }
+
+  /* ── Markets ── */
+  .markets-section { background: var(--blue); }
+  .markets-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .market-chip {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-radius: 24px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .market-chip.gold { background: var(--gold); color: var(--blue-dark); border-color: var(--gold); }
+
+  /* ── Testimonials ── */
+  .testimonials-section { background: var(--gray-light); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .testimonial-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.75rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    border-left: 4px solid var(--gold);
+  }
+  .testimonial-stars { color: var(--gold); font-size: 1.1rem; margin-bottom: 0.75rem; letter-spacing: 2px; }
+  .testimonial-text { color: #444; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; font-style: italic; }
+  .testimonial-author { font-weight: 800; font-size: 0.9rem; color: var(--blue); }
+  .testimonial-city { font-size: 0.8rem; color: var(--gray); }
+
+  /* ── Sticky CTA Bar (mobile) ── */
+  .sticky-cta {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background: var(--blue-dark);
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+    align-items: center;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.2);
+  }
+  @media(max-width:640px) { .sticky-cta { display: flex; } }
+  .sticky-cta a { flex: 1; text-align: center; padding: 0.75rem 1rem; border-radius: 6px; font-weight: 800; font-size: 0.9rem; min-height: 48px; display: flex; align-items: center; justify-content: center; }
+  .sticky-cta .sticky-offer { background: var(--gold); color: var(--blue-dark); }
+  .sticky-cta .sticky-call { background: var(--red); color: #fff; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">⚡ Florida's #1 Cash Home Buyers</p>
+  <h1>We Buy Houses <span>Cash</span> in Florida</h1>
+  <p class="hero-sub">Any Condition. Any Situation. Close in as Little as 7 Days.</p>
+  <a href="#offer-form" class="btn btn-gold hero-cta">🏠 GET MY CASH OFFER →</a>
+  <div class="hero-badges">
+    <span class="hero-badge"><span class="check">✓</span> No Fees</span>
+    <span class="hero-badge"><span class="check">✓</span> No Repairs</span>
+    <span class="hero-badge"><span class="check">✓</span> No Agents</span>
+    <span class="hero-badge"><span class="check">✓</span> Close Fast</span>
+    <span class="hero-badge"><span class="check">✓</span> We Pay Closing Costs</span>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-items">
+    <span class="trust-item">✅ No Fees</span>
+    <span class="trust-item">🔨 No Repairs</span>
+    <span class="trust-item">🚫 No Agents</span>
+    <span class="trust-item">😌 No Hassle</span>
+    <span class="trust-item">💨 Close in 7 Days</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">Three simple steps to a cash offer — no obligation, no pressure.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Tell Us About Your House</h3>
+        <p>Fill out the quick form below with your property details. It only takes 90 seconds — no obligation whatsoever.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Get Your Cash Offer</h3>
+        <p>We'll review your property and call you within 24 hours with a fair, no-pressure cash offer. Zero commissions, zero fees.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Pick Your Closing Date &amp; Get Paid</h3>
+        <p>You choose the timeline that works for you — as fast as 7 days or whenever you're ready. Cash in your hands at closing.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <a href="/how-it-works" class="btn btn-gold">Learn More About the Process →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SELLER SITUATIONS -->
+<section class="situations-section">
+  <div class="container">
+    <h2 class="section-title">We Help Sellers In Any Situation</h2>
+    <p class="section-sub">Whatever you're going through, we can help. No judgment — just a fast, fair cash offer.</p>
+    <div class="situations-grid">
+      <div class="situation-card">
+        <div class="situation-icon">🏦</div>
+        <h3>Foreclosure</h3>
+        <p>Stop the foreclosure clock. We close fast and pay off what you owe.</p>
+      </div>
+      <div class="situation-card">
+        <div class="situation-icon">💔</div>
+        <h3>Divorce</h3>
+        <p>Sell quickly and split the proceeds. We make a messy process simple.</p>
+      </div>
+      <div class="situation-card">
+        <div class="situation-icon">🏚️</div>
+        <h3>Inherited Property</h3>
+        <p>Don't let an inherited house become a burden. We buy probate homes as-is.</p>
+      </div>
+      <div class="situation-card">
+        <div class="situation-icon">📋</div>
+        <h3>Behind on Taxes</h3>
+        <p>Tax liens piling up? We can take over the property and clear your debt.</p>
+      </div>
+      <div class="situation-card">
+        <div class="situation-icon">😤</div>
+        <h3>Bad Tenants</h3>
+        <p>Tired landlord? Sell your rental as-is — tenants and all, no cleanup needed.</p>
+      </div>
+      <div class="situation-card">
+        <div class="situation-icon">🔧</div>
+        <h3>Needs Repairs</h3>
+        <p>Fire damage, mold, foundation issues — we buy it exactly as it sits.</p>
+      </div>
+      <div class="situation-card">
+        <div class="situation-icon">📦</div>
+        <h3>Relocating</h3>
+        <p>Moving for work or family? Sell fast and move on without the stress.</p>
+      </div>
+      <div class="situation-card">
+        <div class="situation-icon">🏠</div>
+        <h3>Vacant House</h3>
+        <p>Empty homes cost money every month. We'll take it off your hands quickly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFER FORM -->
+<section class="form-section" id="offer-form">
+  <div class="container">
+    <h2 class="section-title">Get Your Free Cash Offer</h2>
+    <p class="section-sub">Takes 90 seconds • No obligation • We call you within 24 hours</p>
+    <div class="form-card">
+      <h3 class="form-title">What's Your Property Worth in Cash?</h3>
+      <p class="form-sub">Fill out the form below and we'll give you a fair cash offer — for free.</p>
+      <form action="/submit" method="POST">
+        <input type="hidden" name="source_page" value="homepage">
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <label for="address">Property Street Address *</label>
+            <input type="text" id="address" name="address" placeholder="123 Main Street" required>
+          </div>
+          <div class="form-group">
+            <label for="city">City *</label>
+            <input type="text" id="city" name="city" placeholder="Sarasota" required>
+          </div>
+          <div class="form-group">
+            <label for="condition">Property Condition *</label>
+            <select id="condition" name="condition" required>
+              <option value="" disabled selected>Select condition...</option>
+              <option value="Move-in Ready">Move-in Ready</option>
+              <option value="Minor Repairs">Minor Repairs</option>
+              <option value="Major Repairs">Major Repairs</option>
+              <option value="Tear Down">Tear Down</option>
+            </select>
+          </div>
+          <div class="form-group form-full">
+            <label for="situation">Your Situation (optional)</label>
+            <select id="situation" name="situation">
+              <option value="">Select your situation...</option>
+              <option value="Foreclosure">Foreclosure</option>
+              <option value="Divorce">Divorce</option>
+              <option value="Inherited Property">Inherited Property</option>
+              <option value="Behind on Taxes">Behind on Taxes</option>
+              <option value="Bad Tenants">Bad Tenants / Tired Landlord</option>
+              <option value="Needs Repairs">Needs Major Repairs</option>
+              <option value="Relocating">Relocating</option>
+              <option value="Vacant House">Vacant House</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" placeholder="First &amp; Last Name" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" placeholder="(941) 555-0123" required>
+          </div>
+          <div class="form-group form-full">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-full">
+            <button type="submit" class="btn btn-gold btn-full">🏠 GET MY CASH OFFER →</button>
+            <p style="text-align:center;font-size:0.8rem;color:#999;margin-top:0.75rem;">
+              🔒 Your info is 100% private. No spam, ever. We'll call you within 24 hours.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Why Sell to Bo Knows Houses?</h2>
+    <p class="section-sub">The fastest, easiest way to sell your Florida home — guaranteed.</p>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">⚡</div>
+        <h3>Cash Offer in 24 Hours</h3>
+        <p>We review your property and call you back with a real number — fast.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">📅</div>
+        <h3>Close in 7–30 Days</h3>
+        <p>Pick the date that works for you. We work on your schedule, not ours.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">💰</div>
+        <h3>We Pay All Closing Costs</h3>
+        <p>No surprise deductions. What we offer is what you walk away with.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🚫</div>
+        <h3>No Commissions or Fees</h3>
+        <p>No real estate agents. No 6% commissions. We're direct buyers.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🔨</div>
+        <h3>Buy As-Is, Every Time</h3>
+        <p>Don't clean it, fix it, or stage it. We buy houses exactly as they are.</p>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">🤝</div>
+        <h3>Local Florida Experts</h3>
+        <p>We know the Florida market and close dozens of deals every year.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKETS -->
+<section class="markets-section">
+  <div class="container">
+    <h2 class="section-title" style="color:#fff;">We Buy Houses Across Florida</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.7);">From the Gulf Coast to Central Florida — we're local, fast, and ready.</p>
+    <div class="markets-grid">
+      <span class="market-chip gold">Sarasota</span>
+      <span class="market-chip gold">Bradenton</span>
+      <span class="market-chip">Tampa</span>
+      <span class="market-chip">Orlando</span>
+      <span class="market-chip">Ocala</span>
+      <span class="market-chip">Jacksonville</span>
+      <span class="market-chip">Port Charlotte</span>
+      <span class="market-chip">Punta Gorda</span>
+      <span class="market-chip">Venice</span>
+      <span class="market-chip">North Port</span>
+      <span class="market-chip" style="background:rgba(255,255,255,0.05);border-style:dashed;">+ Surrounding Areas</span>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="container">
+    <h2 class="section-title">What Florida Sellers Are Saying</h2>
+    <p class="section-sub">Real sellers, real results. Here's how we helped families move forward.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"My mother passed and left me her house in Sarasota. It needed a new roof, AC, and the kitchen was a mess. I couldn't afford to fix it and didn't have time to deal with a realtor. Bo Knows Houses gave me a fair cash offer within a day and we closed in under two weeks. I didn't have to do a single repair. Huge weight off my shoulders."</p>
+        <div class="testimonial-author">— Linda R.</div>
+        <div class="testimonial-city">Sarasota, FL · Inherited Property</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"I was three months behind on my mortgage and getting foreclosure notices. I called Bo Knows Houses on a Thursday and had a cash offer by Friday. We closed before the foreclosure could go through and I walked away with money in my pocket. I can't thank them enough — they literally saved me."</p>
+        <div class="testimonial-author">— Marcus T.</div>
+        <div class="testimonial-city">Bradenton, FL · Foreclosure</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Going through a divorce is hard enough without fighting over a house. Bo Knows Houses made it simple — one call, one fair offer, and we both walked away clean. No open houses, no agents arguing over commissions, no drama. I wish I'd called them sooner."</p>
+        <div class="testimonial-author">— Jennifer M.</div>
+        <div class="testimonial-city">Port Charlotte, FL · Divorce</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="background:var(--red);text-align:center;padding:3.5rem 1.5rem;">
+  <div class="container">
+    <h2 style="color:#fff;font-size:2rem;font-weight:900;margin-bottom:0.75rem;">Ready for a No-Obligation Cash Offer?</h2>
+    <p style="color:rgba(255,255,255,0.85);font-size:1.1rem;margin-bottom:1.75rem;">Call us now or fill out the form — we'll get back to you within 24 hours.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+      <a href="tel:19412717856" class="btn" style="background:#fff;color:var(--red);font-size:1.1rem;">📞 Call 1-941-271-7856</a>
+      <a href="#offer-form" class="btn btn-gold" style="font-size:1.1rem;">🏠 Get Cash Offer</a>
+    </div>
+  </div>
+</section>
+
+<!-- Sticky mobile CTA -->
+<div class="sticky-cta">
+  <a href="#offer-form" class="sticky-offer">🏠 Cash Offer</a>
+  <a href="tel:19412717856" class="sticky-call">📞 Call Now</a>
+</div>
+
+{% endblock %}

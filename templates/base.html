@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bo Knows Houses US LLC — We Buy Houses Cash in Florida. Any Condition. Any Situation. Close in as little as 7 days. Call 1-941-271-7856.">
+  <title>{% block title %}Bo Knows Houses — We Buy Houses Cash in Florida{% endblock %}</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #222;
+      background: #fff;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Colors ── */
+    :root {
+      --blue: #1a2e4a;
+      --blue-dark: #122035;
+      --red: #c0392b;
+      --gold: #f39c12;
+      --gold-dark: #d68910;
+      --white: #ffffff;
+      --gray-light: #f5f6f8;
+      --gray: #666;
+      --text: #222;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: var(--blue-dark);
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .nav-logo {
+      color: var(--white);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-phone {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+    .nav-phone:hover { color: #fff; }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      border: none;
+      text-align: center;
+      min-height: 48px;
+      transition: background 0.2s, transform 0.1s;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--blue-dark);
+    }
+    .btn-gold:hover { background: var(--gold-dark); }
+    .btn-red {
+      background: var(--red);
+      color: #fff;
+    }
+    .btn-red:hover { background: #a93226; }
+    .btn-full { width: 100%; font-size: 1.15rem; padding: 1rem 2rem; }
+
+    /* ── Sections ── */
+    section { padding: 4rem 1.5rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Form ── */
+    .form-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .form-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--blue);
+      margin-bottom: 0.25rem;
+    }
+    .form-sub {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media(min-width:600px) {
+      .form-grid { grid-template-columns: 1fr 1fr; }
+      .form-full { grid-column: 1 / -1; }
+    }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 0.35rem;
+    }
+    .form-group input,
+    .form-group select {
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-size: 16px; /* prevents iOS zoom */
+      color: var(--text);
+      background: #fff;
+      width: 100%;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    /* ── Trust bar ── */
+    .trust-bar {
+      background: var(--red);
+      color: #fff;
+      text-align: center;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.75);
+      padding: 3rem 1.5rem 2rem;
+      text-align: center;
+    }
+    footer .footer-logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    footer .footer-logo span { color: var(--gold); }
+    footer .footer-phone {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin: 0.5rem 0;
+      display: block;
+    }
+    footer p { margin: 0.25rem 0; font-size: 0.9rem; }
+    footer .footer-links { margin: 1rem 0; }
+    footer .footer-links a { color: rgba(255,255,255,0.7); margin: 0 0.75rem; font-size: 0.9rem; }
+    footer .footer-links a:hover { color: var(--gold); }
+    footer .footer-copy { color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-top: 1.5rem; }
+
+    /* ── Responsive ── */
+    @media(max-width:600px) {
+      section { padding: 3rem 1.25rem; }
+      .section-title { font-size: 1.6rem; }
+      .form-card { padding: 1.5rem 1.25rem; }
+    }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Bo <span>Knows</span> Houses</a>
+  <a href="tel:19412717856" class="nav-phone">📞 1-941-271-7856</a>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer>
+  <div class="footer-logo">Bo <span>Knows</span> Houses US LLC</div>
+  <a href="tel:19412717856" class="footer-phone">1-941-271-7856</a>
+  <p>Florida's Trusted Cash Home Buyers</p>
+  <p>Serving Sarasota, Manatee, Charlotte, Duval, Marion &amp; Orange Counties</p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/how-it-works">How It Works</a>
+    <a href="https://instagram.com/boknowshousesus" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);">We buy houses in any condition, any situation, across Florida.<br>No fees, no repairs, no agents — just a fast, fair cash offer.</p>
+  <p class="footer-copy">© 2024 Bo Knows Houses US LLC · boknowshousesus.com · All rights reserved.</p>
+</footer>
+
+</body>
+</html>
