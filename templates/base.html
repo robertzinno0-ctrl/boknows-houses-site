@@ -55,10 +55,12 @@
       gap: 10px;
     }
     .nav-logo img {
-      height: 44px;
+      height: 48px;
       width: auto;
-      border-radius: 6px;
+      border-radius: 8px;
       object-fit: contain;
+      background: white;
+      padding: 3px;
     }
     .nav-logo span { color: var(--gold); }
     .nav-phone {
@@ -224,14 +226,14 @@
 <body>
 
 <nav>
-  <a href="/" class="nav-logo"><img src="/static/logo.jpg" alt="Bo Knows Houses">Bo <span>Knows</span> Houses</a>
+  <a href="/" class="nav-logo"><img src="/static/logo.png" alt="Bo Knows Houses">Bo <span>Knows</span> Houses</a>
   <a href="tel:19412717856" class="nav-phone">📞 1-941-271-7856</a>
 </nav>
 
 {% block content %}{% endblock %}
 
 <footer>
-  <div class="footer-logo"><img src="/static/logo.jpg" alt="Bo Knows Houses" style="height:50px;width:auto;border-radius:8px;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;">Bo <span>Knows</span> Houses US LLC</div>
+  <div class="footer-logo"><img src="/static/logo.png" alt="Bo Knows Houses" style="height:50px;width:auto;border-radius:8px;margin-bottom:10px;display:block;margin-left:auto;margin-right:auto;">Bo <span>Knows</span> Houses US LLC</div>
   <a href="tel:19412717856" class="footer-phone">1-941-271-7856</a>
   <p>America's Trusted Cash Home Buyers</p>
   <p>Serving Sarasota, Manatee, Charlotte, Duval, Marion &amp; Orange Counties</p>
