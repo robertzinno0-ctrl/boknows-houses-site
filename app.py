@@ -10,9 +10,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), 'data', 'leads.json')
-GHL_API_KEY = os.environ.get('GHL_API_KEY', '')
-GHL_LOCATION_ID = os.environ.get('GHL_LOCATION_ID', '')
-GHL_API_URL = 'https://rest.gohighlevel.com/v1/contacts/'
+GHL_API_KEY     = os.environ.get('GHL_API_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Ik1PNUtHaVNQVEpTMEk0MVdLMm9qIiwidmVyc2lvbiI6MSwiaWF0IjoxNzU3MTAwODIwMzQwLCJzdWIiOiJGaHFWZGJRMTRPT2lacTI5aUh2SiJ9.jM57d0uU31Uc0dQ7lwIkwxk8QFfBTnWdfPOSpy21S3A')
+GHL_LOCATION_ID = os.environ.get('GHL_LOCATION_ID', 'MO5KGiSPTJS0I41WK2oj')
+GHL_API_URL     = 'https://rest.gohighlevel.com/v1/contacts/'
 
 
 def load_leads():
