@@ -47,12 +47,10 @@ def push_to_ghl(lead):
         'email': lead.get('email', ''),
         'phone': lead.get('phone', ''),
         'tags': tags,
-        'customField': {
-            'property_address': lead.get('address', ''),
-            'property_city': lead.get('city', ''),
-            'property_condition': lead.get('condition', ''),
-            'seller_situation': situation,
-        },
+        'address1': lead.get('address', ''),
+        'city':     lead.get('city', ''),
+        'state':    lead.get('state', ''),
+        'postalCode': lead.get('zip', ''),
         'source': 'Website - Bo Knows Houses',
     }
     if GHL_LOCATION_ID:
