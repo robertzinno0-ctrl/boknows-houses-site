@@ -92,6 +92,8 @@ def submit():
         'timestamp': datetime.utcnow().isoformat() + 'Z',
         'address': request.form.get('address', '').strip(),
         'city': request.form.get('city', '').strip(),
+        'state': request.form.get('state', '').strip(),
+        'zip': request.form.get('zip', '').strip(),
         'condition': request.form.get('condition', '').strip(),
         'situation': request.form.get('situation', '').strip(),
         'name': request.form.get('name', '').strip(),
@@ -108,7 +110,7 @@ def submit():
         msg = (f"🏠 NEW SELLER LEAD — Bo Knows Houses\n"
                f"Name: {lead.get('name','')}\n"
                f"Phone: {lead.get('phone','')}\n"
-               f"Property: {lead.get('address','')}, {lead.get('city','')}\n"
+               f"Property: {lead.get('address','')}, {lead.get('city','')}, {lead.get('state','')} {lead.get('zip','')}\n"
                f"Condition: {lead.get('condition','')}\n"
                f"Situation: {lead.get('situation','')}")
         send_sms(msg)
