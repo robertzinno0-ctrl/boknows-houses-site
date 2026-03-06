@@ -41,29 +41,35 @@ def push_to_ghl(lead):
     tags = ['Bo Knows Houses', 'Website Lead', 'Website Lead - Bo Knows Houses']
     if situation:
         tags.append(situation)
+    name_parts = lead.get('name', '').strip().split()
+    phone_raw = lead.get('phone', '').strip().replace(' ','').replace('-','').replace('(','').replace(')','')
+    if phone_raw and not phone_raw.startswith('+'):
+        phone_raw = '+1' + phone_raw if len(phone_raw) == 10 else '+' + phone_raw
+
     payload = {
-        'firstName': lead.get('name', '').split()[0] if lead.get('name') else '',
-        'lastName': ' '.join(lead.get('name', '').split()[1:]) if lead.get('name') else '',
-        'email': lead.get('email', ''),
-        'phone': lead.get('phone', ''),
-        'tags': tags,
-        'address1': lead.get('address', ''),
-        'city':     lead.get('city', ''),
-        'state':    lead.get('state', ''),
+        'firstName':  name_parts[0] if name_parts else 'Unknown',
+        'lastName':   ' '.join(name_parts[1:]) if len(name_parts) > 1 else '',
+        'phone':      phone_raw,
+        'tags':       tags,
+        'address1':   lead.get('address', ''),
+        'city':       lead.get('city', ''),
+        'state':      lead.get('state', ''),
         'postalCode': lead.get('zip', ''),
-        'source': 'Website - Bo Knows Houses',
+        'source':     'Website - Bo Knows Houses',
+        'locationId': GHL_LOCATION_ID,
     }
-    if GHL_LOCATION_ID:
-        payload['locationId'] = GHL_LOCATION_ID
+    email = lead.get('email', '').strip()
+    if email:
+        payload['email'] = email
+
     headers = {
         'Authorization': 'Bearer ' + GHL_API_KEY,
         'Content-Type': 'application/json',
     }
     try:
         resp = requests.post(GHL_API_URL, json=payload, headers=headers, timeout=10)
-        resp.raise_for_status()
-        logger.info('GHL push success: %s', resp.status_code)
-        return True
+        logger.info('GHL response: %s %s', resp.status_code, resp.text[:200])
+        return resp.status_code in (200, 201)
     except Exception as e:
         logger.error('GHL push failed: %s', str(e))
         return False
