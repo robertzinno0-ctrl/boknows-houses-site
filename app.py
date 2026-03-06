@@ -75,6 +75,21 @@ def push_to_ghl(lead):
         return False
 
 
+@app.route('/test-ghl')
+def test_ghl():
+    result = push_to_ghl({
+        'name': 'GHL Test Lead',
+        'phone': '9417254587',
+        'email': 'test@boknowshousesus.com',
+        'address': '123 Test St',
+        'city': 'Sarasota',
+        'state': 'FL',
+        'zip': '34230',
+        'condition': 'Good',
+        'situation': 'Testing',
+    })
+    return f"GHL push result: {'SUCCESS' if result else 'FAILED'} | KEY={GHL_API_KEY[:20]}..."
+
 @app.route('/')
 def index():
     return render_template('index.html')
