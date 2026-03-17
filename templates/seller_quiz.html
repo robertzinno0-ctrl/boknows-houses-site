@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Your Cash Offer — Bo Knows Houses</title>
+<meta name="description" content="Answer 6 quick questions and get a fair cash offer on your home within 24 hours. No obligation, no fees.">
+<meta property="og:title" content="How Much Is Your Home Worth in Cash? — Bo Knows Houses">
+<meta property="og:description" content="Skip the agent. Get a fair cash offer in 24 hours. Answer 6 quick questions to get started.">
+<meta property="og:image" content="https://boknowshousesus.com/static/og_quiz.jpg">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a1628; color: #fff; min-height: 100vh; }
+
+.hero { background: linear-gradient(135deg, #1a2e4a 0%, #0a1628 100%); padding: 20px; text-align: center; border-bottom: 3px solid #f39c12; }
+.hero .logo { font-size: 1.4rem; font-weight: 800; color: #f39c12; letter-spacing: 1px; }
+.hero h1 { font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 800; margin: 12px 0 6px; line-height: 1.2; }
+.hero h1 span { color: #f39c12; }
+.hero p { color: #a0b4cc; font-size: 1rem; margin-bottom: 8px; }
+.trust-bar { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 12px; }
+.trust-item { font-size: 0.8rem; color: #7a8fa6; display: flex; align-items: center; gap: 4px; }
+.trust-item span { color: #2ecc71; font-weight: 700; }
+
+.container { max-width: 600px; margin: 0 auto; padding: 30px 20px; }
+
+/* Progress */
+.progress-wrap { margin-bottom: 28px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #7a8fa6; margin-bottom: 8px; }
+.progress-label .step-name { color: #f39c12; font-weight: 600; }
+.progress-bar { background: #1a2e4a; border-radius: 10px; height: 8px; overflow: hidden; }
+.progress-fill { background: linear-gradient(90deg, #f39c12, #c0392b); height: 100%; border-radius: 10px; transition: width 0.4s ease; }
+
+/* Quiz Steps */
+.step { display: none; animation: fadeIn 0.3s ease; }
+.step.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.step-header { margin-bottom: 24px; }
+.step-num { font-size: 0.75rem; color: #f39c12; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.step-q { font-size: clamp(1.1rem, 3vw, 1.5rem); font-weight: 700; line-height: 1.3; }
+.step-sub { font-size: 0.85rem; color: #7a8fa6; margin-top: 6px; }
+
+/* Option Cards */
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.options.single { grid-template-columns: 1fr; }
+.opt { background: #1a2e4a; border: 2px solid #2a3f5f; border-radius: 12px; padding: 16px 14px; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; align-items: center; gap: 10px; }
+.opt:hover { border-color: #f39c12; background: #1f3459; }
+.opt.selected { border-color: #f39c12; background: #1f3459; }
+.opt-icon { font-size: 1.4rem; flex-shrink: 0; }
+.opt-text { font-size: 0.95rem; font-weight: 600; }
+.opt-sub { font-size: 0.75rem; color: #7a8fa6; margin-top: 2px; }
+
+/* Urgency badge */
+.urgency { background: #c0392b22; border: 1px solid #c0392b; border-radius: 8px; padding: 10px 14px; margin-bottom: 20px; font-size: 0.85rem; color: #e74c3c; display: flex; align-items: center; gap: 8px; }
+
+/* Contact form */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #a0b4cc; margin-bottom: 6px; }
+.form-group input, .form-group select { width: 100%; background: #1a2e4a; border: 2px solid #2a3f5f; border-radius: 10px; padding: 14px 16px; font-size: 1rem; color: #fff; outline: none; transition: border-color 0.2s; }
+.form-group input:focus, .form-group select:focus { border-color: #f39c12; }
+.form-group input::placeholder { color: #4a6080; }
+
+.submit-btn { width: 100%; background: linear-gradient(135deg, #f39c12, #e67e22); color: #1a2e4a; border: none; border-radius: 12px; padding: 18px; font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: transform 0.2s; letter-spacing: 0.5px; margin-top: 8px; }
+.submit-btn:hover { transform: scale(1.02); }
+.submit-btn:active { transform: scale(0.98); }
+
+.back-btn { background: none; border: none; color: #7a8fa6; font-size: 0.85rem; cursor: pointer; padding: 10px 0; display: flex; align-items: center; gap: 4px; margin-bottom: 16px; }
+.back-btn:hover { color: #a0b4cc; }
+
+.disclaimer { font-size: 0.72rem; color: #4a6080; text-align: center; margin-top: 14px; line-height: 1.5; }
+
+/* Summary bar */
+.summary { background: #1a2e4a; border-radius: 10px; padding: 14px; margin-bottom: 20px; display: none; }
+.summary.show { display: block; }
+.summary-title { font-size: 0.75rem; color: #7a8fa6; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.summary-items { display: flex; flex-wrap: wrap; gap: 6px; }
+.summary-tag { background: #2a3f5f; border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; color: #a0b4cc; }
+
+/* Success */
+.success { text-align: center; padding: 20px; display: none; }
+.success.show { display: block; }
+.success-icon { font-size: 4rem; margin-bottom: 16px; }
+.success h2 { font-size: 1.8rem; color: #f39c12; margin-bottom: 10px; }
+.success p { color: #a0b4cc; line-height: 1.6; margin-bottom: 20px; }
+.success .next-steps { background: #1a2e4a; border-radius: 12px; padding: 20px; text-align: left; }
+.success .next-steps h3 { color: #f39c12; margin-bottom: 12px; font-size: 1rem; }
+.success .next-steps li { color: #c8d6e5; font-size: 0.9rem; margin-bottom: 8px; padding-left: 4px; }
+
+/* Mobile */
+@media (max-width: 480px) {
+  .options { grid-template-columns: 1fr; }
+  .trust-bar { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">🏠 BO KNOWS HOUSES</div>
+  <h1>Get Your <span>Fair Cash Offer</span><br>in 24 Hours</h1>
+  <p>No agents. No repairs. No fees. Close in as little as 7 days.</p>
+  <div class="trust-bar">
+    <div class="trust-item"><span>✓</span> All 50 States</div>
+    <div class="trust-item"><span>✓</span> Any Condition</div>
+    <div class="trust-item"><span>✓</span> Close in 7 Days</div>
+    <div class="trust-item"><span>✓</span> Zero Fees</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Progress -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-label">
+      <span id="stepLabel" class="step-name">Step 1 of 6</span>
+      <span id="stepPct">16%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:16%"></div></div>
+  </div>
+
+  <!-- Summary of answers -->
+  <div class="summary" id="answerSummary">
+    <div class="summary-title">Your Answers</div>
+    <div class="summary-items" id="summaryItems"></div>
+  </div>
+
+  <!-- STEP 1: Property Type -->
+  <div class="step active" id="step1">
+    <div class="step-header">
+      <div class="step-num">Question 1 of 6</div>
+      <div class="step-q">What type of property are you selling?</div>
+      <div class="step-sub">Select the option that best describes your property</div>
+    </div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(1,'Single Family Home','🏠')">
+        <span class="opt-icon">🏠</span>
+        <div><div class="opt-text">Single Family Home</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(1,'Multi-Family','🏘️')">
+        <span class="opt-icon">🏘️</span>
+        <div><div class="opt-text">Multi-Family</div><div class="opt-sub">Duplex, triplex, etc.</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(1,'Condo / Townhouse','🏢')">
+        <span class="opt-icon">🏢</span>
+        <div><div class="opt-text">Condo / Townhouse</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(1,'Land / Lot','🌿')">
+        <span class="opt-icon">🌿</span>
+        <div><div class="opt-text">Land / Lot</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(1,'Mobile Home','🚐')">
+        <span class="opt-icon">🚐</span>
+        <div><div class="opt-text">Mobile Home</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(1,'Commercial','🏭')">
+        <span class="opt-icon">🏭</span>
+        <div><div class="opt-text">Commercial</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Condition -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-num">Question 2 of 6</div>
+      <div class="step-q">What condition is your property in?</div>
+      <div class="step-sub">Be honest — we buy in ANY condition</div>
+    </div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(2,'Move-In Ready','✨')">
+        <span class="opt-icon">✨</span>
+        <div><div class="opt-text">Move-In Ready</div><div class="opt-sub">Good shape, minor issues</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(2,'Needs Minor Repairs','🔧')">
+        <span class="opt-icon">🔧</span>
+        <div><div class="opt-text">Needs Minor Repairs</div><div class="opt-sub">Paint, flooring, fixtures</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(2,'Needs Major Repairs','🏚️')">
+        <span class="opt-icon">🏚️</span>
+        <div><div class="opt-text">Needs Major Repairs</div><div class="opt-sub">Roof, foundation, plumbing</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(2,'Severely Distressed','⚠️')">
+        <span class="opt-icon">⚠️</span>
+        <div><div class="opt-text">Severely Distressed</div><div class="opt-sub">Uninhabitable or condemned</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Situation -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-num">Question 3 of 6</div>
+      <div class="step-q">What's your situation?</div>
+      <div class="step-sub">This helps us tailor the best offer for you</div>
+    </div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(3,'Behind on Payments','💸')">
+        <span class="opt-icon">💸</span>
+        <div><div class="opt-text">Behind on Payments</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(3,'Facing Foreclosure','🚨')">
+        <span class="opt-icon">🚨</span>
+        <div><div class="opt-text">Facing Foreclosure</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(3,'Inherited Property','🔑')">
+        <span class="opt-icon">🔑</span>
+        <div><div class="opt-text">Inherited Property</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(3,'Divorce / Separation','📋')">
+        <span class="opt-icon">📋</span>
+        <div><div class="opt-text">Divorce / Separation</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(3,'Relocating','✈️')">
+        <span class="opt-icon">✈️</span>
+        <div><div class="opt-text">Relocating</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(3,'Tired Landlord','😤')">
+        <span class="opt-icon">😤</span>
+        <div><div class="opt-text">Tired Landlord</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(3,'Just Want Fast Sale','⚡')">
+        <span class="opt-icon">⚡</span>
+        <div><div class="opt-text">Just Want Fast Sale</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(3,'Other','💬')">
+        <span class="opt-icon">💬</span>
+        <div><div class="opt-text">Other Situation</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Timeline -->
+  <div class="step" id="step4">
+    <div class="step-header">
+      <div class="step-num">Question 4 of 6</div>
+      <div class="step-q">How soon do you need to sell?</div>
+      <div class="step-sub">We can close as fast as 7 days</div>
+    </div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(4,'ASAP — 7 days or less','🔥')">
+        <span class="opt-icon">🔥</span>
+        <div><div class="opt-text">ASAP — 7 days or less</div><div class="opt-sub">We can do this</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(4,'1-2 Weeks','⚡')">
+        <span class="opt-icon">⚡</span>
+        <div><div class="opt-text">1–2 Weeks</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(4,'30 Days','📅')">
+        <span class="opt-icon">📅</span>
+        <div><div class="opt-text">Within 30 Days</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(4,'1-3 Months','🗓️')">
+        <span class="opt-icon">🗓️</span>
+        <div><div class="opt-text">1–3 Months</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: Price Range -->
+  <div class="step" id="step5">
+    <div class="step-header">
+      <div class="step-num">Question 5 of 6</div>
+      <div class="step-q">What's the estimated value of your home?</div>
+      <div class="step-sub">Don't worry — we buy at any price point</div>
+    </div>
+    <div class="options">
+      <div class="opt" onclick="selectOpt(5,'Under $100K','💰')">
+        <span class="opt-icon">💰</span>
+        <div><div class="opt-text">Under $100,000</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(5,'$100K - $250K','💰')">
+        <span class="opt-icon">💰</span>
+        <div><div class="opt-text">$100,000 – $250,000</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(5,'$250K - $500K','💰')">
+        <span class="opt-icon">💰</span>
+        <div><div class="opt-text">$250,000 – $500,000</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(5,'$500K - $1M','💰')">
+        <span class="opt-icon">💰</span>
+        <div><div class="opt-text">$500,000 – $1,000,000</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(5,'Over $1M','💎')">
+        <span class="opt-icon">💎</span>
+        <div><div class="opt-text">Over $1,000,000</div></div>
+      </div>
+      <div class="opt" onclick="selectOpt(5,'Not Sure','🤷')">
+        <span class="opt-icon">🤷</span>
+        <div><div class="opt-text">Not Sure</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6: Contact Info -->
+  <div class="step" id="step6">
+    <div class="urgency">
+      🔥 <strong>You qualify for a cash offer!</strong> Enter your info to receive it within 24 hours.
+    </div>
+    <div class="step-header">
+      <div class="step-num">Question 6 of 6</div>
+      <div class="step-q">Where should we send your cash offer?</div>
+      <div class="step-sub">Takes 30 seconds — no obligation</div>
+    </div>
+    <form id="contactForm" onsubmit="submitForm(event)">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" id="fname" placeholder="Your full name" required>
+      </div>
+      <div class="form-group">
+        <label>Phone Number *</label>
+        <input type="tel" id="fphone" placeholder="(555) 555-5555" required>
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" id="femail" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label>Property Address *</label>
+        <input type="text" id="faddress" placeholder="123 Main St, City, State, ZIP" required>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">
+        🏠 GET MY CASH OFFER NOW →
+      </button>
+      <p class="disclaimer">By submitting, you agree to be contacted by Bo Knows Houses US LLC regarding your property. We respect your privacy and never share your information. No obligation, no fees.</p>
+    </form>
+  </div>
+
+  <!-- Success -->
+  <div class="success" id="successMsg">
+    <div class="success-icon">🎉</div>
+    <h2>You're All Set!</h2>
+    <p>We received your information and will have your <strong>cash offer ready within 24 hours</strong>. Watch for a call or text from our team.</p>
+    <div class="next-steps">
+      <h3>✅ What Happens Next:</h3>
+      <ul>
+        <li>📞 We'll call/text you within 24 hours</li>
+        <li>💰 You'll receive a fair, no-obligation cash offer</li>
+        <li>📝 If you accept, we handle all the paperwork</li>
+        <li>🏦 Cash in your hands in as little as 7 days</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const answers = {};
+let currentStep = 1;
+const totalSteps = 6;
+
+const stepNames = {
+  1: 'Property Type',
+  2: 'Condition',
+  3: 'Your Situation',
+  4: 'Timeline',
+  5: 'Home Value',
+  6: 'Contact Info'
+};
+
+function updateProgress(step) {
+  const pct = Math.round((step / totalSteps) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('stepPct').textContent = pct + '%';
+  document.getElementById('stepLabel').textContent = stepNames[step] || `Step ${step} of ${totalSteps}`;
+}
+
+function updateSummary() {
+  const summary = document.getElementById('answerSummary');
+  const items = document.getElementById('summaryItems');
+  if (Object.keys(answers).length === 0) { summary.classList.remove('show'); return; }
+  summary.classList.add('show');
+  items.innerHTML = Object.values(answers).map(a =>
+    `<span class="summary-tag">${a.icon} ${a.value}</span>`
+  ).join('');
+}
+
+function selectOpt(step, value, icon) {
+  answers[step] = { value, icon };
+  // Highlight selected
+  document.querySelectorAll(`#step${step} .opt`).forEach(o => o.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+
+  setTimeout(() => {
+    goToStep(step + 1);
+  }, 300);
+}
+
+function goToStep(step) {
+  document.getElementById(`step${currentStep}`).classList.remove('active');
+  currentStep = step;
+  if (step <= totalSteps) {
+    document.getElementById(`step${step}`).classList.add('active');
+    updateProgress(step);
+    updateSummary();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = '⏳ Submitting...';
+  btn.disabled = true;
+
+  const data = {
+    name:     document.getElementById('fname').value,
+    phone:    document.getElementById('fphone').value,
+    email:    document.getElementById('femail').value,
+    address:  document.getElementById('faddress').value,
+    prop_type: answers[1]?.value || '',
+    condition: answers[2]?.value || '',
+    situation: answers[3]?.value || '',
+    timeline:  answers[4]?.value || '',
+    price_range: answers[5]?.value || '',
+    source:    'Facebook Ad — Seller Quiz'
+  };
+
+  fetch('/api/seller_quiz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById('progressWrap').style.display = 'none';
+    document.getElementById('answerSummary').style.display = 'none';
+    document.getElementById(`step${currentStep}`).classList.remove('active');
+    document.getElementById('successMsg').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  })
+  .catch(() => {
+    btn.textContent = '🏠 GET MY CASH OFFER NOW →';
+    btn.disabled = false;
+    alert('Something went wrong. Please try again or call 1-941-271-7856');
+  });
+}
+
+updateProgress(1);
+</script>
+</body>
+</html>

@@ -138,5 +138,48 @@ def submit():
     return redirect(url_for('thank_you'))
 
 
+@app.route('/seller-quiz')
+def seller_quiz():
+    return render_template('seller_quiz.html')
+
+@app.route('/api/seller_quiz', methods=['POST'])
+def seller_quiz_submit():
+    data = request.get_json() or {}
+    lead = {
+        'name':      data.get('name', '').strip(),
+        'phone':     data.get('phone', '').strip(),
+        'email':     data.get('email', '').strip(),
+        'address':   data.get('address', '').strip(),
+        'prop_type': data.get('prop_type', ''),
+        'condition': data.get('condition', ''),
+        'situation': data.get('situation', ''),
+        'timeline':  data.get('timeline', ''),
+        'price_range': data.get('price_range', ''),
+        'source':    data.get('source', 'Seller Quiz'),
+        'source_page': 'seller-quiz'
+    }
+    save_lead(lead)
+    push_to_ghl({
+        **lead,
+        'tags': ['seller quiz', 'facebook ad lead', lead.get('situation','').lower(), lead.get('timeline','').lower()]
+    })
+    try:
+        import sys
+        sys.path.insert(0, '/Users/robertzinno/.openclaw/workspace/boknowshouses-leads')
+        from twilio_sms import send_sms
+        msg = (f"🔥 NEW QUIZ LEAD — Bo Knows Houses\n"
+               f"Name: {lead.get('name')}\n"
+               f"Phone: {lead.get('phone')}\n"
+               f"Address: {lead.get('address')}\n"
+               f"Type: {lead.get('prop_type')} | Condition: {lead.get('condition')}\n"
+               f"Situation: {lead.get('situation')}\n"
+               f"Timeline: {lead.get('timeline')}\n"
+               f"Value: {lead.get('price_range')}")
+        send_sms(msg)
+    except Exception as e:
+        logger.error('SMS error: %s', str(e))
+    return jsonify({'ok': True})
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5052, debug=False)
