@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ listing.title }} | Bo Knows Houses</title>
+<meta property="og:title" content="{{ listing.title }}">
+<meta property="og:description" content="{{ listing.description }}">
+{% if listing.photos %}<meta property="og:image" content="{{ listing.photos[0] }}">{% endif %}
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',sans-serif; background:#0f1923; color:#e0e0e0; }
+  .header { background:#1a2e4a; padding:16px 30px; display:flex; align-items:center; justify-content:space-between; border-bottom:3px solid #c0392b; }
+  .logo { color:#fff; font-size:1.3rem; font-weight:700; }
+  .logo span { color:#f39c12; }
+  .header-phone { color:#f39c12; font-weight:700; font-size:1rem; }
+
+  .hero { background:#1a2535; padding:40px 20px; text-align:center; border-bottom:1px solid #2a3f5a; }
+  .deal-badge { display:inline-block; background:#c0392b; color:#fff; padding:6px 18px; border-radius:20px; font-size:.85rem; font-weight:700; margin-bottom:15px; letter-spacing:.05em; }
+  .hero h1 { font-size:2rem; color:#fff; margin-bottom:10px; }
+  .hero .address { color:#aaa; font-size:1.1rem; margin-bottom:20px; }
+  .price-tag { display:inline-block; background:#f39c12; color:#000; font-size:2rem; font-weight:800; padding:12px 30px; border-radius:10px; margin-bottom:20px; }
+  .price-tag.negotiable { background:#1a6fb5; color:#fff; }
+
+  .container { max-width:900px; margin:0 auto; padding:30px 20px; }
+
+  .photos-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; margin-bottom:30px; }
+  .photos-grid img { width:100%; height:220px; object-fit:cover; border-radius:10px; cursor:pointer; transition:.2s; }
+  .photos-grid img:hover { opacity:.85; transform:scale(1.02); }
+
+  .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:30px; }
+  @media(max-width:600px) { .details-grid { grid-template-columns:1fr; } .hero h1 { font-size:1.4rem; } }
+
+  .detail-card { background:#1a2535; border-radius:12px; padding:20px; border:1px solid #2a3f5a; }
+  .detail-card h3 { color:#f39c12; font-size:.9rem; text-transform:uppercase; margin-bottom:14px; letter-spacing:.08em; }
+  .detail-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #1a2535; font-size:.92rem; }
+  .detail-row:last-child { border-bottom:none; }
+  .detail-row .label { color:#888; }
+  .detail-row .val { color:#fff; font-weight:600; }
+
+  .signals { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:30px; }
+  .signal { background:#1a2e4a; border:1px solid #2a3f5a; border-radius:20px; padding:6px 14px; font-size:.82rem; color:#aaa; }
+  .signal.hot { background:#4a1a1a; border-color:#c0392b; color:#f44336; }
+  .signal.warm { background:#3a2a0a; border-color:#f39c12; color:#f39c12; }
+
+  .description { background:#1a2535; border-radius:12px; padding:25px; margin-bottom:30px; border:1px solid #2a3f5a; line-height:1.7; color:#ccc; }
+  .description h3 { color:#f39c12; margin-bottom:12px; }
+
+  .cta-box { background:linear-gradient(135deg,#1a2e4a,#0f1923); border:2px solid #f39c12; border-radius:16px; padding:35px; text-align:center; margin-bottom:30px; }
+  .cta-box h2 { color:#fff; font-size:1.5rem; margin-bottom:10px; }
+  .cta-box p { color:#aaa; margin-bottom:25px; }
+  .cta-buttons { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; }
+  .btn { padding:14px 30px; border-radius:10px; font-weight:700; font-size:1rem; text-decoration:none; display:inline-block; transition:.2s; border:none; cursor:pointer; }
+  .btn-call { background:#c0392b; color:#fff; }
+  .btn-call:hover { background:#a93226; }
+  .btn-text { background:#f39c12; color:#000; }
+  .btn-text:hover { background:#e08e0b; }
+
+  .upload-notice { text-align:center; color:#555; font-size:.85rem; padding:20px; }
+
+  /* Lightbox */
+  .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:1000; align-items:center; justify-content:center; }
+  .lightbox.open { display:flex; }
+  .lightbox img { max-width:90vw; max-height:90vh; border-radius:10px; }
+  .lightbox-close { position:absolute; top:20px; right:30px; color:#fff; font-size:2rem; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Bo Knows <span>Houses</span></div>
+  <div class="header-phone">📞 1-941-271-7856</div>
+</div>
+
+<div class="hero">
+  <div class="deal-badge">🔥 OFF-MARKET DEAL — CASH BUYERS ONLY</div>
+  <h1>{{ listing.title }}</h1>
+  <div class="address">📍 {{ listing.address }}</div>
+  {% if listing.price %}
+    <div class="price-tag">{{ listing.price }}</div>
+  {% else %}
+    <div class="price-tag negotiable">Price: Call for Details</div>
+  {% endif %}
+</div>
+
+<div class="container">
+
+  <!-- Photos -->
+  {% if listing.photos %}
+  <div class="photos-grid">
+    {% for photo in listing.photos %}
+    <img src="{{ photo }}" onclick="openLightbox('{{ photo }}')" alt="Property photo">
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="upload-notice" style="background:#1a2535;border-radius:10px;padding:30px;margin-bottom:30px;border:1px dashed #2a3f5a;">
+    📷 Photos coming soon — contact Bo for a full walkthrough
+  </div>
+  {% endif %}
+
+  <!-- Property Details -->
+  <div class="details-grid">
+    <div class="detail-card">
+      <h3>🏠 Property Info</h3>
+      {% if listing.beds %}<div class="detail-row"><span class="label">Bedrooms</span><span class="val">{{ listing.beds }}</span></div>{% endif %}
+      {% if listing.baths %}<div class="detail-row"><span class="label">Bathrooms</span><span class="val">{{ listing.baths }}</span></div>{% endif %}
+      {% if listing.sqft %}<div class="detail-row"><span class="label">Sq Footage</span><span class="val">{{ listing.sqft }}</span></div>{% endif %}
+      {% if listing.year_built %}<div class="detail-row"><span class="label">Year Built</span><span class="val">{{ listing.year_built }}</span></div>{% endif %}
+      {% if listing.lot_size %}<div class="detail-row"><span class="label">Lot Size</span><span class="val">{{ listing.lot_size }}</span></div>{% endif %}
+      {% if listing.property_type %}<div class="detail-row"><span class="label">Type</span><span class="val">{{ listing.property_type }}</span></div>{% endif %}
+    </div>
+    <div class="detail-card">
+      <h3>💰 Deal Info</h3>
+      {% if listing.price %}<div class="detail-row"><span class="label">Asking Price</span><span class="val">{{ listing.price }}</span></div>{% endif %}
+      {% if listing.arv %}<div class="detail-row"><span class="label">Est. ARV</span><span class="val">{{ listing.arv }}</span></div>{% endif %}
+      {% if listing.repair_est %}<div class="detail-row"><span class="label">Est. Repairs</span><span class="val">{{ listing.repair_est }}</span></div>{% endif %}
+      {% if listing.equity %}<div class="detail-row"><span class="label">Est. Equity</span><span class="val">{{ listing.equity }}</span></div>{% endif %}
+      <div class="detail-row"><span class="label">Condition</span><span class="val">AS-IS</span></div>
+      <div class="detail-row"><span class="label">Closing</span><span class="val">Fast / Flexible</span></div>
+    </div>
+  </div>
+
+  <!-- Distress Signals -->
+  {% if listing.signals %}
+  <div class="signals">
+    {% for s in listing.signals %}
+    <div class="signal hot">⚠️ {{ s }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Description -->
+  {% if listing.description %}
+  <div class="description">
+    <h3>About This Property</h3>
+    {{ listing.description }}
+  </div>
+  {% endif %}
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h2>Interested in This Deal?</h2>
+    <p>Cash buyers only. Move fast — off-market deals go quick.</p>
+    <div class="cta-buttons">
+      <a href="tel:19412717856" class="btn btn-call">📞 Call Bo Now</a>
+      <a href="sms:19412717856" class="btn btn-text">💬 Text Bo</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">✕</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+</script>
+</body>
+</html>

@@ -181,5 +181,53 @@ def seller_quiz_submit():
     return jsonify({'ok': True})
 
 
+# ── Public Property Listings ─────────────────────────────────────────────────
+@app.route('/listing/<slug>')
+def view_listing(slug):
+    import json, re
+    slug = re.sub(r'[^a-z0-9-]', '', slug)
+    path = os.path.join(os.path.dirname(__file__), 'data', 'listings', f'{slug}.json')
+    if not os.path.exists(path):
+        return render_template('404.html'), 404 if os.path.exists(os.path.join(os.path.dirname(__file__), 'templates', '404.html')) else ('<h2 style="font-family:sans-serif;padding:40px">Listing not found.</h2>', 404)
+    with open(path) as f:
+        listing = json.load(f)
+    return render_template('listing.html', listing=listing)
+
+@app.route('/api/listing/create', methods=['POST'])
+def create_listing():
+    import json, re, hmac, hashlib
+    # Simple token check so only your leads app can create listings
+    token = request.headers.get('X-BKH-Token','')
+    if token != 'boknows2025':
+        return jsonify({'error':'Unauthorized'}), 401
+    data = request.get_json()
+    address = data.get('address','')
+    slug = re.sub(r'[^a-z0-9]+', '-', address.lower().split(',')[0].strip())[:40].strip('-')
+    listing = {
+        'slug': slug,
+        'title': data.get('title') or address.split(',')[0],
+        'address': address,
+        'price': data.get('price',''),
+        'arv': data.get('arv',''),
+        'repair_est': data.get('repair_est',''),
+        'equity': data.get('equity',''),
+        'beds': data.get('beds',''),
+        'baths': data.get('baths',''),
+        'sqft': data.get('sqft',''),
+        'year_built': data.get('year_built',''),
+        'lot_size': data.get('lot_size',''),
+        'property_type': data.get('property_type','Single Family'),
+        'description': data.get('description',''),
+        'photos': data.get('photos',[]),
+        'signals': data.get('signals',[]),
+    }
+    path = os.path.join(os.path.dirname(__file__), 'data', 'listings', f'{slug}.json')
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, 'w') as f:
+        json.dump(listing, f)
+    url = f'https://boknowshousesus.com/listing/{slug}'
+    return jsonify({'ok': True, 'slug': slug, 'url': url})
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5052, debug=False)
